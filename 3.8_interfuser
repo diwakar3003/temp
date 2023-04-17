@@ -1,0 +1,388 @@
+pip3 install -r requirements.txt
+Collecting absl-py==0.9.0
+  Using cached absl-py-0.9.0.tar.gz (104 kB)
+  Preparing metadata (setup.py) ... done
+Collecting attrs==19.3.0
+  Using cached attrs-19.3.0-py2.py3-none-any.whl (39 kB)
+Collecting backcall==0.1.0
+  Using cached backcall-0.1.0.zip (11 kB)
+  Preparing metadata (setup.py) ... done
+Collecting bleach==3.1.4
+  Using cached bleach-3.1.4-py2.py3-none-any.whl (151 kB)
+Collecting cachetools==4.0.0
+  Using cached cachetools-4.0.0-py3-none-any.whl (10 kB)
+Collecting carla-birdeye-view==1.1.1
+  Using cached carla-birdeye-view-1.1.1.tar.gz (14 kB)
+  Preparing metadata (setup.py) ... done
+Collecting certifi==2018.8.24
+  Using cached certifi-2018.8.24-py2.py3-none-any.whl (147 kB)
+Collecting chardet==3.0.4
+  Using cached chardet-3.0.4-py2.py3-none-any.whl (133 kB)
+Collecting click==7.1.1
+  Using cached click-7.1.1-py2.py3-none-any.whl (82 kB)
+Collecting configparser==4.0.2
+  Using cached configparser-4.0.2-py2.py3-none-any.whl (22 kB)
+Collecting cycler==0.10.0
+  Using cached cycler-0.10.0-py2.py3-none-any.whl (6.5 kB)
+Collecting decorator==4.4.2
+  Using cached decorator-4.4.2-py2.py3-none-any.whl (9.2 kB)
+Collecting defusedxml==0.6.0
+  Using cached defusedxml-0.6.0-py2.py3-none-any.whl (23 kB)
+Collecting dictor==0.1.5
+  Using cached dictor-0.1.5.tar.gz (4.8 kB)
+  Preparing metadata (setup.py) ... done
+Collecting docker-pycreds==0.4.0
+  Using cached docker_pycreds-0.4.0-py2.py3-none-any.whl (9.0 kB)
+Collecting easydict==1.9
+  Using cached easydict-1.9.tar.gz (6.4 kB)
+  Preparing metadata (setup.py) ... done
+Collecting elementpath==1.3.3
+  Using cached elementpath-1.3.3-py2.py3-none-any.whl (68 kB)
+Collecting entrypoints==0.3
+  Using cached entrypoints-0.3-py2.py3-none-any.whl (11 kB)
+Collecting ephem==3.7.7.1
+  Using cached ephem-3.7.7.1-cp38-cp38-manylinux2010_x86_64.whl (1.2 MB)
+Collecting filelock==3.0.12
+  Using cached filelock-3.0.12-py3-none-any.whl (7.6 kB)
+Collecting future==0.18.2
+  Using cached future-0.18.2.tar.gz (829 kB)
+  Preparing metadata (setup.py) ... done
+Collecting gitdb==4.0.2
+  Using cached gitdb-4.0.2-py3-none-any.whl (63 kB)
+Collecting GitPython==3.1.0
+  Using cached GitPython-3.1.0-py3-none-any.whl (450 kB)
+Collecting gql==0.2.0
+  Using cached gql-0.2.0.tar.gz (18 kB)
+  Preparing metadata (setup.py) ... done
+Collecting graphql-core==1.1
+  Using cached graphql-core-1.1.tar.gz (70 kB)
+  Preparing metadata (setup.py) ... done
+Collecting grpcio==1.27.2
+  Using cached grpcio-1.27.2-cp38-cp38-manylinux2010_x86_64.whl (2.7 MB)
+Collecting idna==2.9
+  Using cached idna-2.9-py2.py3-none-any.whl (58 kB)
+Collecting imageio==2.8.0
+  Using cached imageio-2.8.0-py3-none-any.whl (3.3 MB)
+Collecting imgaug==0.4.0
+  Using cached imgaug-0.4.0-py2.py3-none-any.whl (948 kB)
+Collecting importlib-metadata==1.6.0
+  Using cached importlib_metadata-1.6.0-py2.py3-none-any.whl (30 kB)
+Collecting ipykernel==5.2.0
+  Using cached ipykernel-5.2.0-py3-none-any.whl (117 kB)
+Collecting ipython==7.13.0
+  Using cached ipython-7.13.0-py3-none-any.whl (780 kB)
+Collecting ipython-genutils==0.2.0
+  Using cached ipython_genutils-0.2.0-py2.py3-none-any.whl (26 kB)
+Collecting ipywidgets==7.5.1
+  Using cached ipywidgets-7.5.1-py2.py3-none-any.whl (121 kB)
+Collecting jedi==0.16.0
+  Using cached jedi-0.16.0-py2.py3-none-any.whl (1.1 MB)
+Collecting Jinja2==2.11.1
+  Using cached Jinja2-2.11.1-py2.py3-none-any.whl (126 kB)
+Collecting joblib==0.14.1
+  Using cached joblib-0.14.1-py2.py3-none-any.whl (294 kB)
+Collecting jsonschema==3.2.0
+  Using cached jsonschema-3.2.0-py2.py3-none-any.whl (56 kB)
+Collecting jupyter-client==6.1.2
+  Using cached jupyter_client-6.1.2-py3-none-any.whl (106 kB)
+Collecting jupyter-core==4.6.3
+  Using cached jupyter_core-4.6.3-py2.py3-none-any.whl (83 kB)
+Collecting kiwisolver==1.1.0
+  Using cached kiwisolver-1.1.0-cp38-cp38-manylinux1_x86_64.whl (91 kB)
+Collecting Markdown==3.2.1
+  Using cached Markdown-3.2.1-py2.py3-none-any.whl (88 kB)
+Collecting MarkupSafe==1.1.1
+  Using cached MarkupSafe-1.1.1-cp38-cp38-manylinux2010_x86_64.whl (32 kB)
+Collecting matplotlib==3.0.3
+  Using cached matplotlib-3.0.3.tar.gz (36.6 MB)
+  Preparing metadata (setup.py) ... done
+Collecting mistune==0.8.4
+  Using cached mistune-0.8.4-py2.py3-none-any.whl (16 kB)
+Collecting nbconvert==5.6.1
+  Using cached nbconvert-5.6.1-py2.py3-none-any.whl (455 kB)
+Collecting nbformat==5.0.4
+  Using cached nbformat-5.0.4-py3-none-any.whl (169 kB)
+Collecting networkx==2.2
+  Using cached networkx-2.2.zip (1.7 MB)
+  Preparing metadata (setup.py) ... done
+Collecting notebook==6.0.3
+  Using cached notebook-6.0.3-py3-none-any.whl (9.7 MB)
+Collecting numpy==1.18.3
+  Using cached numpy-1.18.3-cp38-cp38-manylinux1_x86_64.whl (20.6 MB)
+Collecting nvidia-ml-py3==7.352.0
+  Using cached nvidia-ml-py3-7.352.0.tar.gz (19 kB)
+  Preparing metadata (setup.py) ... done
+Collecting oauthlib==3.1.0
+  Using cached oauthlib-3.1.0-py2.py3-none-any.whl (147 kB)
+Collecting open3d==0.10.0.0
+  Downloading open3d-0.10.0.0-cp38-cp38-manylinux1_x86_64.whl (4.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 2.9 MB/s eta 0:00:00
+Collecting opencv-python==4.2.0.34
+  Using cached opencv_python-4.2.0.34-cp38-cp38-manylinux1_x86_64.whl (28.2 MB)
+Collecting pandas==0.25.3
+  Using cached pandas-0.25.3-cp38-cp38-manylinux1_x86_64.whl (10.4 MB)
+Collecting pandocfilters==1.4.2
+  Using cached pandocfilters-1.4.2.tar.gz (14 kB)
+  Preparing metadata (setup.py) ... done
+Collecting parso==0.6.2
+  Using cached parso-0.6.2-py2.py3-none-any.whl (97 kB)
+Collecting pathtools==0.1.2
+  Using cached pathtools-0.1.2.tar.gz (11 kB)
+  Preparing metadata (setup.py) ... done
+Collecting pexpect==4.8.0
+  Using cached pexpect-4.8.0-py2.py3-none-any.whl (59 kB)
+Collecting pickleshare==0.7.5
+  Using cached pickleshare-0.7.5-py2.py3-none-any.whl (6.9 kB)
+Collecting Pillow==7.0.0
+  Using cached Pillow-7.0.0-cp38-cp38-manylinux1_x86_64.whl (2.1 MB)
+Collecting prometheus-client==0.7.1
+  Using cached prometheus_client-0.7.1.tar.gz (38 kB)
+  Preparing metadata (setup.py) ... done
+Collecting promise==2.3
+  Using cached promise-2.3.tar.gz (19 kB)
+  Preparing metadata (setup.py) ... done
+Collecting prompt-toolkit==3.0.5
+  Using cached prompt_toolkit-3.0.5-py3-none-any.whl (351 kB)
+Collecting protobuf==3.11.3
+  Using cached protobuf-3.11.3-cp38-cp38-manylinux1_x86_64.whl (1.3 MB)
+Collecting psutil==5.7.0
+  Using cached psutil-5.7.0.tar.gz (449 kB)
+  Preparing metadata (setup.py) ... done
+Collecting ptyprocess==0.6.0
+  Using cached ptyprocess-0.6.0-py2.py3-none-any.whl (39 kB)
+Collecting py-trees==0.8.3
+  Using cached py_trees-0.8.3-py3-none-any.whl (61 kB)
+Collecting pyasn1==0.4.8
+  Using cached pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+Collecting pyasn1-modules==0.2.8
+  Using cached pyasn1_modules-0.2.8-py2.py3-none-any.whl (155 kB)
+Collecting pydot==1.4.1
+  Using cached pydot-1.4.1-py2.py3-none-any.whl (19 kB)
+Collecting pygame==2.1.2
+  Using cached pygame-2.1.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (21.8 MB)
+Collecting Pygments==2.6.1
+  Using cached Pygments-2.6.1-py3-none-any.whl (914 kB)
+Collecting pyparsing==2.4.6
+  Using cached pyparsing-2.4.6-py2.py3-none-any.whl (67 kB)
+Collecting pyrsistent==0.16.0
+  Using cached pyrsistent-0.16.0.tar.gz (108 kB)
+  Preparing metadata (setup.py) ... done
+Collecting python-dateutil==2.8.1
+  Using cached python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+Collecting pytorch-lightning==0.7.1
+  Using cached pytorch-lightning-0.7.1.tar.gz (6.0 MB)
+  Preparing metadata (setup.py) ... done
+Collecting pytz==2019.3
+  Using cached pytz-2019.3-py2.py3-none-any.whl (509 kB)
+Collecting PyWavelets==1.1.1
+  Using cached PyWavelets-1.1.1-cp38-cp38-manylinux1_x86_64.whl (4.4 MB)
+Collecting PyYAML==5.3
+  Using cached PyYAML-5.3.tar.gz (268 kB)
+  Preparing metadata (setup.py) ... done
+Collecting pyzmq==19.0.0
+  Using cached pyzmq-19.0.0-cp38-cp38-manylinux1_x86_64.whl (1.1 MB)
+Collecting requests==2.23.0
+  Using cached requests-2.23.0-py2.py3-none-any.whl (58 kB)
+Collecting requests-oauthlib==1.3.0
+  Using cached requests_oauthlib-1.3.0-py2.py3-none-any.whl (23 kB)
+Collecting rsa==4.0
+  Using cached rsa-4.0-py2.py3-none-any.whl (38 kB)
+Collecting scikit-image==0.16.2
+  Using cached scikit_image-0.16.2-cp38-cp38-manylinux1_x86_64.whl (26.5 MB)
+Collecting scikit-learn==0.22.2.post1
+  Using cached scikit_learn-0.22.2.post1-cp38-cp38-manylinux1_x86_64.whl (7.0 MB)
+Collecting scipy==1.4.1
+  Using cached scipy-1.4.1-cp38-cp38-manylinux1_x86_64.whl (26.0 MB)
+Collecting Send2Trash==1.5.0
+  Using cached Send2Trash-1.5.0-py3-none-any.whl (12 kB)
+Collecting sentry-sdk==0.14.2
+  Using cached sentry_sdk-0.14.2-py2.py3-none-any.whl (96 kB)
+Collecting Shapely==1.7.0
+  Using cached Shapely-1.7.0-cp38-cp38-manylinux1_x86_64.whl (1.8 MB)
+Collecting shortuuid==1.0.1
+  Using cached shortuuid-1.0.1-py3-none-any.whl (7.5 kB)
+Collecting setuptools==41.2.0
+  Using cached setuptools-41.2.0-py2.py3-none-any.whl (576 kB)
+Collecting six==1.14.0
+  Using cached six-1.14.0-py2.py3-none-any.whl (10 kB)
+Collecting smmap==3.0.1
+  Using cached smmap-3.0.1-py2.py3-none-any.whl (25 kB)
+Collecting subprocess32==3.5.4
+  Using cached subprocess32-3.5.4.tar.gz (97 kB)
+  Preparing metadata (setup.py) ... done
+Collecting tabulate==0.8.7
+  Using cached tabulate-0.8.7-py3-none-any.whl (24 kB)
+Collecting tensorboard==2.1.1
+  Using cached tensorboard-2.1.1-py3-none-any.whl (3.8 MB)
+Collecting terminado==0.8.3
+  Using cached terminado-0.8.3-py2.py3-none-any.whl (33 kB)
+Collecting testpath==0.4.4
+  Using cached testpath-0.4.4-py2.py3-none-any.whl (163 kB)
+Collecting tornado==6.0.4
+  Using cached tornado-6.0.4.tar.gz (496 kB)
+  Preparing metadata (setup.py) ... done
+Collecting tensorboardX
+  Using cached tensorboardX-2.6-py2.py3-none-any.whl (114 kB)
+Collecting tqdm==4.43.0
+  Using cached tqdm-4.43.0-py2.py3-none-any.whl (59 kB)
+Collecting traitlets==4.3.3
+  Using cached traitlets-4.3.3-py2.py3-none-any.whl (75 kB)
+Collecting typing_extensions==4.1.1
+  Using cached typing_extensions-4.1.1-py3-none-any.whl (26 kB)
+Collecting torch
+  Using cached torch-2.0.0-cp38-cp38-manylinux1_x86_64.whl (619.9 MB)
+Collecting torchvision
+  Using cached torchvision-0.15.1-cp38-cp38-manylinux1_x86_64.whl (33.8 MB)
+Collecting urllib3==1.25.8
+  Using cached urllib3-1.25.8-py2.py3-none-any.whl (125 kB)
+Collecting wandb==0.8.29
+  Using cached wandb-0.8.29-py2.py3-none-any.whl (1.4 MB)
+Collecting watchdog==0.10.2
+  Using cached watchdog-0.10.2.tar.gz (95 kB)
+  Preparing metadata (setup.py) ... done
+Collecting wcwidth==0.1.9
+  Using cached wcwidth-0.1.9-py2.py3-none-any.whl (19 kB)
+Collecting webencodings==0.5.1
+  Using cached webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Collecting Werkzeug==1.0.0
+  Using cached Werkzeug-1.0.0-py2.py3-none-any.whl (298 kB)
+Collecting widgetsnbextension==3.5.1
+  Using cached widgetsnbextension-3.5.1-py2.py3-none-any.whl (2.2 MB)
+Collecting xmlschema==1.0.18
+  Using cached xmlschema-1.0.18-py2.py3-none-any.whl (358 kB)
+Collecting zipp==3.1.0
+  Using cached zipp-3.1.0-py3-none-any.whl (4.9 kB)
+Requirement already satisfied: wheel>=0.26 in /home/diwakar/anaconda3/envs/Env3.8_interfuser/lib/python3.8/site-packages (from tensorboard==2.1.1->-r requirements.txt (line 97)) (0.38.4)
+Collecting google-auth-oauthlib<0.5,>=0.4.1
+  Using cached google_auth_oauthlib-0.4.6-py2.py3-none-any.whl (18 kB)
+Collecting google-auth<2,>=1.6.3
+  Using cached google_auth-1.35.0-py2.py3-none-any.whl (152 kB)
+Collecting packaging
+  Using cached packaging-23.1-py3-none-any.whl (48 kB)
+Collecting sympy
+  Downloading sympy-1.11.1-py3-none-any.whl (6.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.5/6.5 MB 6.1 MB/s eta 0:00:00
+Collecting nvidia-cuda-nvrtc-cu11==11.7.99
+  Using cached nvidia_cuda_nvrtc_cu11-11.7.99-2-py3-none-manylinux1_x86_64.whl (21.0 MB)
+Collecting nvidia-cusolver-cu11==11.4.0.1
+  Downloading nvidia_cusolver_cu11-11.4.0.1-2-py3-none-manylinux1_x86_64.whl (102.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 102.6/102.6 MB 8.1 MB/s eta 0:00:00
+Collecting nvidia-cuda-cupti-cu11==11.7.101
+  Downloading nvidia_cuda_cupti_cu11-11.7.101-py3-none-manylinux1_x86_64.whl (11.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.8/11.8 MB 10.3 MB/s eta 0:00:00
+Collecting nvidia-cufft-cu11==10.9.0.58
+  Downloading nvidia_cufft_cu11-10.9.0.58-py3-none-manylinux1_x86_64.whl (168.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 168.4/168.4 MB 6.0 MB/s eta 0:00:00
+Collecting nvidia-cublas-cu11==11.10.3.66
+  Using cached nvidia_cublas_cu11-11.10.3.66-py3-none-manylinux1_x86_64.whl (317.1 MB)
+Collecting nvidia-curand-cu11==10.2.10.91
+  Downloading nvidia_curand_cu11-10.2.10.91-py3-none-manylinux1_x86_64.whl (54.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.6/54.6 MB 9.0 MB/s eta 0:00:00
+Collecting nvidia-nccl-cu11==2.14.3
+  Downloading nvidia_nccl_cu11-2.14.3-py3-none-manylinux1_x86_64.whl (177.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 177.1/177.1 MB 7.1 MB/s eta 0:00:00
+Collecting triton==2.0.0
+  Downloading triton-2.0.0-1-cp38-cp38-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (63.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.2/63.2 MB 6.8 MB/s eta 0:00:00
+Collecting nvidia-cuda-runtime-cu11==11.7.99
+  Using cached nvidia_cuda_runtime_cu11-11.7.99-py3-none-manylinux1_x86_64.whl (849 kB)
+Collecting nvidia-cudnn-cu11==8.5.0.96
+  Using cached nvidia_cudnn_cu11-8.5.0.96-2-py3-none-manylinux1_x86_64.whl (557.1 MB)
+Collecting nvidia-nvtx-cu11==11.7.91
+  Downloading nvidia_nvtx_cu11-11.7.91-py3-none-manylinux1_x86_64.whl (98 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 98.6/98.6 kB 4.4 MB/s eta 0:00:00
+Collecting nvidia-cusparse-cu11==11.7.4.91
+  Downloading nvidia_cusparse_cu11-11.7.4.91-py3-none-manylinux1_x86_64.whl (173.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 173.2/173.2 MB 8.1 MB/s eta 0:00:00
+Collecting cmake
+  Downloading cmake-3.26.3-py2.py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (24.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.0/24.0 MB 11.6 MB/s eta 0:00:00
+Collecting lit
+  Downloading lit-16.0.1.tar.gz (137 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.9/137.9 kB 9.2 MB/s eta 0:00:00
+  Preparing metadata (setup.py) ... done
+Collecting mpmath>=0.19
+  Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 13.1 MB/s eta 0:00:00
+Building wheels for collected packages: absl-py, backcall, carla-birdeye-view, dictor, easydict, future, gql, graphql-core, matplotlib, networkx, nvidia-ml-py3, pandocfilters, pathtools, prometheus-client, promise, psutil, pyrsistent, pytorch-lightning, PyYAML, subprocess32, tornado, watchdog, lit
+  Building wheel for absl-py (setup.py) ... done
+  Created wheel for absl-py: filename=absl_py-0.9.0-py3-none-any.whl size=121922 sha256=61aa887fa088381a46e939f7a8a461c44894070fe724eff74cf14521ad40a548
+  Stored in directory: /home/diwakar/.cache/pip/wheels/1d/10/8e/2f79b924179ff1e6510933d63eb851bea01054fff262343b7a
+  Building wheel for backcall (setup.py) ... done
+  Created wheel for backcall: filename=backcall-0.1.0-py3-none-any.whl size=10399 sha256=93733ddaa4759336a307cc7bab7f41e6ca046c7fe56e411ecf77f8b473f598ee
+  Stored in directory: /home/diwakar/.cache/pip/wheels/78/03/06/34b689a72d2cda926b4ba0066085dcf208a6f21fe160232e99
+  Building wheel for carla-birdeye-view (setup.py) ... done
+  Created wheel for carla-birdeye-view: filename=carla_birdeye_view-1.1.1-py3-none-any.whl size=14768 sha256=2ed670375697ef3e27fe05774672f08a1d43c99d68cf7ac8922eadf70edae07e
+  Stored in directory: /home/diwakar/.cache/pip/wheels/25/89/b2/e6cc1954c0c73f007dbffe07220805054396915ebc4b8ff49e
+  Building wheel for dictor (setup.py) ... done
+  Created wheel for dictor: filename=dictor-0.1.5-py3-none-any.whl size=4592 sha256=93f7e6aa8681d1c4ebfeded5211fb58d20c35b03370cd29fbcc0c52a88636808
+  Stored in directory: /home/diwakar/.cache/pip/wheels/af/40/6c/f23c123d22efdccac2716d6d89a744a5cafafc7f04c5a17796
+  Building wheel for easydict (setup.py) ... done
+  Created wheel for easydict: filename=easydict-1.9-py3-none-any.whl size=6344 sha256=d477cffce5d5d5b464e4ede9305da541c15f7fdd5248f791a272fc83ceb6de93
+  Stored in directory: /home/diwakar/.cache/pip/wheels/d3/e0/e9/305e348717e399665119bd012510d51ff4f22d709ff60c3096
+  Building wheel for future (setup.py) ... done
+  Created wheel for future: filename=future-0.18.2-py3-none-any.whl size=491059 sha256=107d556ffe90f0a1e6d96ad9984674ce4955fa315234c523d792bff58d5d6164
+  Stored in directory: /home/diwakar/.cache/pip/wheels/8e/70/28/3d6ccd6e315f65f245da085482a2e1c7d14b90b30f239e2cf4
+  Building wheel for gql (setup.py) ... done
+  Created wheel for gql: filename=gql-0.2.0-py3-none-any.whl size=7624 sha256=c8a4f2cb5dc8befb5a78b6c33448b91343fa7ada8c1fb35ab5b69f30209d04c2
+  Stored in directory: /home/diwakar/.cache/pip/wheels/29/47/a6/b76714f2b190dab1d8fa7fd040a4db2aeb3e45b99683f1a49a
+  Building wheel for graphql-core (setup.py) ... done
+  Created wheel for graphql-core: filename=graphql_core-1.1-py3-none-any.whl size=104633 sha256=9ffaa373a71d5b73427e4b846581340206c42fd7fadacf73df5b6bda31c26a92
+  Stored in directory: /home/diwakar/.cache/pip/wheels/59/5b/fd/73216c5a1b979371f02df40e6aad1f9b7ae0cd554f46b9dca1
+  Building wheel for matplotlib (setup.py) ... done
+  Created wheel for matplotlib: filename=matplotlib-3.0.3-cp38-cp38-linux_x86_64.whl size=12098599 sha256=274e60da80aa2c0135cb3bcda6fc2c1d9ec26232862bd4d5a58beec1d58ffe3d
+  Stored in directory: /home/diwakar/.cache/pip/wheels/30/7e/cc/38b02661b1b1213a86caa03ae2098cb454385e08160c682eac
+  Building wheel for networkx (setup.py) ... done
+  Created wheel for networkx: filename=networkx-2.2-py2.py3-none-any.whl size=1526919 sha256=8f6749ed58ffc54393a38f10a2340f6d57251f3dfc80ca9e4429b9f24ba3673a
+  Stored in directory: /home/diwakar/.cache/pip/wheels/c3/d7/dd/7e2e485ecd56541b03075c9e3692ec12f6b43e90d09f9a6a9a
+  Building wheel for nvidia-ml-py3 (setup.py) ... done
+  Created wheel for nvidia-ml-py3: filename=nvidia_ml_py3-7.352.0-py3-none-any.whl size=19172 sha256=5ce1f99c7b7fa5999d5c4407cddc03d688dac6fa66aa46b8a4b158b800110e81
+  Stored in directory: /home/diwakar/.cache/pip/wheels/b9/b1/68/cb4feab29709d4155310d29a421389665dcab9eb3b679b527b
+  Building wheel for pandocfilters (setup.py) ... done
+  Created wheel for pandocfilters: filename=pandocfilters-1.4.2-py3-none-any.whl size=7852 sha256=4725a7b8bcb0801e11eaa617ede1de7f629ebe22f88ab048293066cc27f1e45b
+  Stored in directory: /home/diwakar/.cache/pip/wheels/f6/08/65/e4636b703d0e870cd62692dafd6b47db27287fe80cea433722
+  Building wheel for pathtools (setup.py) ... done
+  Created wheel for pathtools: filename=pathtools-0.1.2-py3-none-any.whl size=8791 sha256=b55aeb449ab8c356ff507fb72944c28eb91929d1deb345656ed19d558ea7b542
+  Stored in directory: /home/diwakar/.cache/pip/wheels/4c/8e/7e/72fbc243e1aeecae64a96875432e70d4e92f3d2d18123be004
+  Building wheel for prometheus-client (setup.py) ... done
+  Created wheel for prometheus-client: filename=prometheus_client-0.7.1-py3-none-any.whl size=41389 sha256=01a796be5f0901c07bcdf1e44e33f355a2d16470009019e0e5ede62efb7ddf87
+  Stored in directory: /home/diwakar/.cache/pip/wheels/a7/f7/eb/1abd6e61e5a9ecbc7d05a2a84c045b99cb30a0d3e760dab497
+  Building wheel for promise (setup.py) ... done
+  Created wheel for promise: filename=promise-2.3-py3-none-any.whl size=21486 sha256=7ebf5683c2e38ade606556873877c04dfb19aa62b8b0a92674426cfeaca9e45c
+  Stored in directory: /home/diwakar/.cache/pip/wheels/54/aa/01/724885182f93150035a2a91bce34a12877e8067a97baaf5dc8
+  Building wheel for psutil (setup.py) ... done
+  Created wheel for psutil: filename=psutil-5.7.0-cp38-cp38-linux_x86_64.whl size=269729 sha256=f08ad4ddd4642d1b02bf394b614d2217280f138185b1fe64c8fd8a7bbf1536d1
+  Stored in directory: /home/diwakar/.cache/pip/wheels/90/c9/b6/04665702b01dbd9ee92a05e834b627948ed01cdd482e6a78e1
+  Building wheel for pyrsistent (setup.py) ... done
+  Created wheel for pyrsistent: filename=pyrsistent-0.16.0-cp38-cp38-linux_x86_64.whl size=121736 sha256=c61f308f688668ddbd06709559696f66f771e171354d2e1529efa859f3427c0c
+  Stored in directory: /home/diwakar/.cache/pip/wheels/17/be/0f/727fb20889ada6aaaaba861f5f0eb21663533915429ad43f28
+  Building wheel for pytorch-lightning (setup.py) ... done
+  Created wheel for pytorch-lightning: filename=pytorch_lightning-0.7.1-py3-none-any.whl size=145313 sha256=45388e3c4a9697114be4060f2c30ef7cb8f76de760d5633557deac3dc48110b5
+  Stored in directory: /home/diwakar/.cache/pip/wheels/d7/cc/74/2cdbeb448fe0be9c8fbb540083575a9371623217e6b9287150
+  Building wheel for PyYAML (setup.py) ... done
+  Created wheel for PyYAML: filename=PyYAML-5.3-cp38-cp38-linux_x86_64.whl size=603535 sha256=d18e60261fadb94ea9f0761f39ff7400b1dde2fcbc62483690fa51dc1bffe7f4
+  Stored in directory: /home/diwakar/.cache/pip/wheels/e4/94/ec/65e430f66fda7a86c08f61ce59455581adc269a65881b4ffeb
+  Building wheel for subprocess32 (setup.py) ... done
+  Created wheel for subprocess32: filename=subprocess32-3.5.4-py3-none-any.whl size=6487 sha256=4b2ac992080bf27cf784c7f3174fd7d2b001f768080d7831df5fcef219bfaf44
+  Stored in directory: /home/diwakar/.cache/pip/wheels/9f/69/d1/50b39b308a87998eaf5c1d9095e5a5bd2ad98501e2b7936d36
+  Building wheel for tornado (setup.py) ... done
+  Created wheel for tornado: filename=tornado-6.0.4-cp38-cp38-linux_x86_64.whl size=423096 sha256=213d71a2ebef455113b0086855e98b6aa1510f614ca10e0d54a05692e0c8dd71
+  Stored in directory: /home/diwakar/.cache/pip/wheels/88/79/e5/598ba17e85eccf2626eab62e4ee8452895636cd542650d450d
+  Building wheel for watchdog (setup.py) ... done
+  Created wheel for watchdog: filename=watchdog-0.10.2-py3-none-any.whl size=73617 sha256=98c24b41d2251a24f0218ecec926711c342573ec154a41068b76e6d86878f1de
+  Stored in directory: /home/diwakar/.cache/pip/wheels/4e/14/01/1676612f5b23c641868de61d36ac2d5be12f4eec6c087fbd62
+  Building wheel for lit (setup.py) ... done
+  Created wheel for lit: filename=lit-16.0.1-py3-none-any.whl size=88174 sha256=3a342b7a77d9388b8b109d215cd1fbd42f84e59f44c833f6218fb41aaf6bbf81
+  Stored in directory: /home/diwakar/.cache/pip/wheels/12/14/ba/87be46a564f97692e6cd1f6d7a1deeb5bff2821d45a52e8d7a
+Successfully built absl-py backcall carla-birdeye-view dictor easydict future gql graphql-core matplotlib networkx nvidia-ml-py3 pandocfilters pathtools prometheus-client promise psutil pyrsistent pytorch-lightning PyYAML subprocess32 tornado watchdog lit
+Installing collected packages: webencodings, wcwidth, testpath, tabulate, Shapely, Send2Trash, pytz, pyasn1, ptyprocess, prometheus-client, pickleshare, pathtools, pandocfilters, nvidia-ml-py3, mpmath, mistune, lit, joblib, ipython-genutils, filelock, ephem, elementpath, easydict, dictor, cmake, chardet, certifi, backcall, zipp, xmlschema, Werkzeug, watchdog, urllib3, typing_extensions, tqdm, tornado, sympy, subprocess32, smmap, six, shortuuid, setuptools, rsa, pyzmq, PyYAML, pyparsing, Pygments, pygame, pyasn1-modules, psutil, prompt-toolkit, Pillow, pexpect, parso, packaging, oauthlib, nvidia-nccl-cu11, nvidia-cufft-cu11, nvidia-cuda-nvrtc-cu11, numpy, MarkupSafe, idna, future, entrypoints, defusedxml, decorator, configparser, click, cachetools, attrs, traitlets, terminado, sentry-sdk, scipy, requests, PyWavelets, python-dateutil, pyrsistent, pydot, protobuf, promise, opencv-python, nvidia-nvtx-cu11, nvidia-cusparse-cu11, nvidia-curand-cu11, nvidia-cuda-runtime-cu11, nvidia-cuda-cupti-cu11, nvidia-cublas-cu11, networkx, Markdown, kiwisolver, Jinja2, jedi, importlib-metadata, imageio, grpcio, google-auth, gitdb, docker-pycreds, cycler, bleach, absl-py, tensorboardX, scikit-learn, requests-oauthlib, py-trees, pandas, nvidia-cusolver-cu11, nvidia-cudnn-cu11, matplotlib, jupyter-core, jsonschema, ipython, graphql-core, GitPython, carla-birdeye-view, scikit-image, nbformat, jupyter-client, gql, google-auth-oauthlib, wandb, tensorboard, nbconvert, ipykernel, imgaug, notebook, widgetsnbextension, ipywidgets, open3d, triton, torch, torchvision, pytorch-lightning
+  Attempting uninstall: certifi
+    Found existing installation: certifi 2022.12.7
+    Uninstalling certifi-2022.12.7:
+      Successfully uninstalled certifi-2022.12.7
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 65.6.3
+    Uninstalling setuptools-65.6.3:
+      Successfully uninstalled setuptools-65.6.3
+Successfully installed GitPython-3.1.0 Jinja2-2.11.1 Markdown-3.2.1 MarkupSafe-1.1.1 Pillow-7.0.0 PyWavelets-1.1.1 PyYAML-5.3 Pygments-2.6.1 Send2Trash-1.5.0 Shapely-1.7.0 Werkzeug-1.0.0 absl-py-0.9.0 attrs-19.3.0 backcall-0.1.0 bleach-3.1.4 cachetools-4.0.0 carla-birdeye-view-1.1.1 certifi-2018.8.24 chardet-3.0.4 click-7.1.1 cmake-3.26.3 configparser-4.0.2 cycler-0.10.0 decorator-4.4.2 defusedxml-0.6.0 dictor-0.1.5 docker-pycreds-0.4.0 easydict-1.9 elementpath-1.3.3 entrypoints-0.3 ephem-3.7.7.1 filelock-3.0.12 future-0.18.2 gitdb-4.0.2 google-auth-1.35.0 google-auth-oauthlib-0.4.6 gql-0.2.0 graphql-core-1.1 grpcio-1.27.2 idna-2.9 imageio-2.8.0 imgaug-0.4.0 importlib-metadata-1.6.0 ipykernel-5.2.0 ipython-7.13.0 ipython-genutils-0.2.0 ipywidgets-7.5.1 jedi-0.16.0 joblib-0.14.1 jsonschema-3.2.0 jupyter-client-6.1.2 jupyter-core-4.6.3 kiwisolver-1.1.0 lit-16.0.1 matplotlib-3.0.3 mistune-0.8.4 mpmath-1.3.0 nbconvert-5.6.1 nbformat-5.0.4 networkx-2.2 notebook-6.0.3 numpy-1.18.3 nvidia-cublas-cu11-11.10.3.66 nvidia-cuda-cupti-cu11-11.7.101 nvidia-cuda-nvrtc-cu11-11.7.99 nvidia-cuda-runtime-cu11-11.7.99 nvidia-cudnn-cu11-8.5.0.96 nvidia-cufft-cu11-10.9.0.58 nvidia-curand-cu11-10.2.10.91 nvidia-cusolver-cu11-11.4.0.1 nvidia-cusparse-cu11-11.7.4.91 nvidia-ml-py3-7.352.0 nvidia-nccl-cu11-2.14.3 nvidia-nvtx-cu11-11.7.91 oauthlib-3.1.0 open3d-0.10.0.0 opencv-python-4.2.0.34 packaging-23.1 pandas-0.25.3 pandocfilters-1.4.2 parso-0.6.2 pathtools-0.1.2 pexpect-4.8.0 pickleshare-0.7.5 prometheus-client-0.7.1 promise-2.3 prompt-toolkit-3.0.5 protobuf-3.11.3 psutil-5.7.0 ptyprocess-0.6.0 py-trees-0.8.3 pyasn1-0.4.8 pyasn1-modules-0.2.8 pydot-1.4.1 pygame-2.1.2 pyparsing-2.4.6 pyrsistent-0.16.0 python-dateutil-2.8.1 pytorch-lightning-0.7.1 pytz-2019.3 pyzmq-19.0.0 requests-2.23.0 requests-oauthlib-1.3.0 rsa-4.0 scikit-image-0.16.2 scikit-learn-0.22.2.post1 scipy-1.4.1 sentry-sdk-0.14.2 setuptools-41.2.0 shortuuid-1.0.1 six-1.14.0 smmap-3.0.1 subprocess32-3.5.4 sympy-1.11.1 tabulate-0.8.7 tensorboard-2.1.1 tensorboardX-2.6 terminado-0.8.3 testpath-0.4.4 torch-2.0.0 torchvision-0.15.1 tornado-6.0.4 tqdm-4.43.0 traitlets-4.3.3 triton-2.0.0 typing_extensions-4.1.1 urllib3-1.25.8 wandb-0.8.29 watchdog-0.10.2 wcwidth-0.1.9 webencodings-0.5.1 widgetsnbextension-3.5.1 xmlschema-1.0.18 zipp-3.1.0
+
