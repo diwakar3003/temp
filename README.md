@@ -27,7 +27,7 @@ cv2.destroyAllWindows()
 Copy
 This code will create a separate window for each channel of the segmented image. Note that this code uses OpenCV’s normalization function to scale the pixel values to the range 0-255, which is necessary for cv2.imshow() to display the images correctly. If your pixel values are already in this range, you can skip this step.
 
-
+#########
 import cv2
 import numpy as np
 
