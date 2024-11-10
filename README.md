@@ -3,6 +3,14 @@
 To visualize a segmented image of size (5, 320, 320) using OpenCV, you can use the cv2.imshow() function. However, this function expects the image to be in the format (height, width, channels), and it can only display images with 1 (grayscale) or 3 (BGR) channels.
 
 If your segmented image has 5 channels, you might want to visualize each channel separately as a grayscale image. Here’s an example code snippet:
+:calibration:
+https://drive.google.com/drive/folders/1aO1rSm_30E_LKMh_nfNHvw9reS3lJkEo?usp=sharing
+
+
+
+
+
+
 
 import cv2
 import numpy as np
