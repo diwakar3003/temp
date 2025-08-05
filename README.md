@@ -1,5 +1,175 @@
 import cv2
 import numpy as np
+import sys
+import math
+
+# Methods
+HEMICYLINDER = 0
+MIDPOINTCIRCLE = 1
+
+# Distortion models
+NODISTORTION = -1
+EQUIDISTANT = 0
+EQUISOLID = 1
+
+g_clicks = []
+nNumPoints = 12
+
+def print_help():
+    print("ImageWarping Usage:")
+    print("python image_warping.py inputimagefile outputimagefile [method]")
+    print("Methods:")
+    print(" 0 - Hemicylinder (default)")
+    print(" 1 - Midpoint circle (needs 12 points)")
+
+def point_mean(points):
+    return np.mean(points, axis=0).astype(int)
+
+def mouse_callback(event, x, y, flags, userdata):
+    if event == cv2.EVENT_LBUTTONDOWN and len(g_clicks) < nNumPoints:
+        g_clicks.append((x, y))
+        print(f"Point {len(g_clicks)}: ({x}, {y})")
+
+def hemi_cylinder_warp(input_img, distortion_model=EQUIDISTANT):
+    h, w = input_img.shape[:2]
+    Cx, Cy = w // 2, h // 2
+    F = w / np.pi
+    map_x = np.zeros((h, w), np.float32)
+    map_y = np.zeros((h, w), np.float32)
+
+    for v in range(h):
+        for u in range(w):
+            xt = u
+            yt = v - Cy
+            r = w / np.pi
+            alpha = (w - xt) / r
+            xp = r * np.cos(alpha)
+            yp = yt
+            zp = r * abs(np.sin(alpha))
+            rp = np.sqrt(xp**2 + yp**2)
+            theta = np.arctan2(rp, zp)
+
+            if distortion_model == EQUIDISTANT:
+                x1 = F * theta * xp / rp
+                y1 = F * theta * yp / rp
+            elif distortion_model == EQUISOLID:
+                x1 = 2 * F * np.sin(theta / 2) * xp / rp
+                y1 = 2 * F * np.sin(theta / 2) * yp / rp
+            else:
+                x1 = xt
+                y1 = yt
+
+            map_x[v, u] = x1 + Cx
+            map_y[v, u] = y1 + Cy
+
+    return map_x, map_y
+
+def midpoint_circle_warp(input_img):
+    h, w = input_img.shape[:2]
+    temp_img = input_img.copy()
+    cv2.imshow("Input Frame", temp_img)
+    cv2.setMouseCallback("Input Frame", mouse_callback)
+
+    print("Mark 12 points on circular boundary")
+    while len(g_clicks) < nNumPoints:
+        cv2.waitKey(100)
+        for i, pt in enumerate(g_clicks):
+            cv2.drawMarker(temp_img, pt, (255, 0, 0), cv2.MARKER_CROSS, 10, 1)
+        cv2.imshow("Input Frame", temp_img)
+
+    cv2.setMouseCallback("Input Frame", lambda *args: None)
+
+    points = np.array(g_clicks)
+    mean = point_mean(points)
+    xi = points[:, 0] - mean[0]
+    yi = points[:, 1] - mean[1]
+
+    A = np.vstack([
+        2 * xi, 2 * yi, np.ones_like(xi)
+    ]).T
+    B = (xi**2 + yi**2).reshape(-1, 1)
+    res = np.linalg.lstsq(A, B, rcond=None)[0]
+    Cx, Cy = int(res[0]) + mean[0], int(res[1]) + mean[1]
+    R = int(np.sqrt(res[2] + res[0]**2 + res[1]**2))
+
+    print(f"Cx = {Cx}, Cy = {Cy}, R = {R}")
+
+    map_x = np.zeros((h, w), np.float32)
+    map_y = np.zeros((h, w), np.float32)
+
+    for u in range(w):
+        for v in range(h):
+            xt = u - Cx
+            yt = v - Cy
+            if xt != 0:
+                AO1 = (xt**2 + R**2) / (2.0 * xt)
+                AB = np.sqrt(xt**2 + R**2)
+                PE = R - yt
+                a = yt / PE if PE != 0 else 1
+                b = 2 * np.arcsin(AB / (2 * AO1))
+                alpha = a * b / (a + 1) if a + 1 != 0 else 0
+                x1 = xt - AO1 + AO1 * np.cos(alpha)
+                y1 = AO1 * np.sin(alpha)
+            else:
+                x1, y1 = xt, yt
+
+            map_x[v, u] = x1 + Cx
+            map_y[v, u] = y1 + Cy
+
+    # Rescale y transform
+    for u in range(w):
+        col_y = map_y[:, u]
+        min_y1, max_y1 = np.min(col_y), np.max(col_y)
+        range_y = max_y1 - min_y1
+        factor = range_y / h if h != 0 else 1
+        factor = factor ** 1.0 if factor > 1.0 else factor
+        for v in range(h):
+            map_x[v, u] = u
+            map_y[v, u] = (v - Cy) / factor + Cy
+
+    return map_x, map_y
+
+def main():
+    if len(sys.argv) < 3:
+        print_help()
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+    method = int(sys.argv[3]) if len(sys.argv) > 3 else HEMICYLINDER
+
+    input_img = cv2.imread(input_file)
+    if input_img is None:
+        print("Error loading input image.")
+        sys.exit(1)
+
+    if method == HEMICYLINDER:
+        map_x, map_y = hemi_cylinder_warp(input_img)
+    elif method == MIDPOINTCIRCLE:
+        map_x, map_y = midpoint_circle_warp(input_img)
+    else:
+        print_help()
+        sys.exit(1)
+
+    output_img = cv2.remap(input_img, map_x, map_y, interpolation=cv2.INTER_CUBIC, borderMode=cv2.BORDER_CONSTANT)
+    cv2.imwrite(output_file, output_img)
+    print(f"Output saved to {output_file}")
+    cv2.imshow("Output", output_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+import cv2
+import numpy as np
 
 def fisheye_distortion_rect(patch):
     h, w = patch.shape[:2]
