@@ -1,3 +1,44 @@
+def auto_detect_12_points(input_img):
+    gray = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.medianBlur(gray, 5)
+
+    # Detect circles using Hough Transform
+    circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, dp=1.2,
+                               minDist=100, param1=100, param2=30,
+                               minRadius=0, maxRadius=0)
+
+    if circles is None:
+        print("No circles detected.")
+        sys.exit(1)
+
+    circles = np.uint16(np.around(circles))
+    # Use the largest detected circle (you can enhance selection logic)
+    c = circles[0][0]
+    Cx, Cy, R = c[0], c[1], c[2]
+
+    # Generate 12 evenly spaced points on the circle boundary
+    points = []
+    for i in range(12):
+        theta = 2 * np.pi * i / 12
+        x = int(Cx + R * np.cos(theta))
+        y = int(Cy + R * np.sin(theta))
+        points.append((x, y))
+        cv2.circle(input_img, (x, y), 5, (0, 0, 255), -1)
+
+    print(f"Auto-detected circle: Center=({Cx}, {Cy}), Radius={R}")
+    cv2.imshow("Auto 12 Points", input_img)
+    cv2.waitKey(0)
+
+    return points
+
+
+
+
+
+
+
+
+#########
 def midpoint_circle_warp(input_img):
     h, w = input_img.shape[:2]
     temp_img = input_img.copy()
