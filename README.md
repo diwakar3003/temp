@@ -1,3 +1,59 @@
+import cv2
+import numpy as np
+
+def fisheye_distortion_rect(patch):
+    h, w = patch.shape[:2]
+    cx, cy = w / 2, h / 2  # center
+
+    # Normalized coordinates in range [-1, 1]
+    xv = np.linspace(-1, 1, w)
+    yv = np.linspace(-1, 1, h)
+    xv, yv = np.meshgrid(xv, yv)
+
+    # Rescale to make x and y aspect-ratio aware
+    scale_x = max(w, h) / w
+    scale_y = max(w, h) / h
+    xn = xv * scale_x
+    yn = yv * scale_y
+
+    # Square to circular mapping
+    denom = np.sqrt(1 - (yn**2)/2)
+    denom[denom == 0] = 1e-6
+    x1 = xn / denom
+
+    denom = np.sqrt(1 - (xn**2)/2)
+    denom[denom == 0] = 1e-6
+    y1 = yn / denom
+
+    # Apply radial exponential barrel distortion
+    r = np.sqrt(x1**2 + y1**2)
+    factor = np.exp(-r**2 / 4)
+    x2 = x1 * factor
+    y2 = y1 * factor
+
+    # Map to pixel coordinates
+    map_x = ((x2 / scale_x + 1) * cx).astype(np.float32)
+    map_y = ((y2 / scale_y + 1) * cy).astype(np.float32)
+
+    # Remap
+    distorted = cv2.remap(patch, map_x, map_y, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+    return distorted
+
+# Example usage
+img = cv2.imread("patch_rect.jpg")  # Rectangular patch
+img = cv2.resize(img, (320, 240))  # Example size
+
+distorted = fisheye_distortion_rect(img)
+
+cv2.imshow("Original", img)
+cv2.imshow("Fisheye Distorted", distorted)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+
+
+
 test: https://drive.google.com/drive/folders/1iEm2qu8gCQwlVnfvNexRzWrstq8DhYLn
 
 
