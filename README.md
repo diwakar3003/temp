@@ -1,3 +1,81 @@
+def midpoint_circle_warp(input_img):
+    h, w = input_img.shape[:2]
+    temp_img = input_img.copy()
+    cv2.imshow("Input Frame", temp_img)
+    cv2.setMouseCallback("Input Frame", mouse_callback)
+
+    print("Mark 12 points on circular boundary")
+    while len(g_clicks) < nNumPoints:
+        for pt in g_clicks:
+            cv2.drawMarker(temp_img, pt, (255, 0, 0), cv2.MARKER_CROSS, 10, 1)
+        cv2.imshow("Input Frame", temp_img)
+        if cv2.waitKey(100) == 27:  # ESC to exit early
+            break
+
+    cv2.setMouseCallback("Input Frame", lambda *args: None)
+    if len(g_clicks) < nNumPoints:
+        print("Not enough points marked.")
+        sys.exit(1)
+
+    points = np.array(g_clicks, dtype=np.float32)
+    mean = point_mean(points)
+    xi = points[:, 0] - mean[0]
+    yi = points[:, 1] - mean[1]
+
+    A = np.vstack([
+        2 * xi, 2 * yi, np.ones_like(xi)
+    ]).T
+    B = (xi**2 + yi**2).reshape(-1, 1)
+
+    res = np.linalg.lstsq(A, B, rcond=None)[0]
+    Cx = int(res[0] + mean[0])
+    Cy = int(res[1] + mean[1])
+    R = int(np.sqrt(res[2] + res[0]**2 + res[1]**2))
+
+    print(f"Estimated Circle Center: ({Cx}, {Cy}), Radius: {R}")
+
+    map_x = np.zeros((h, w), dtype=np.float32)
+    map_y = np.zeros((h, w), dtype=np.float32)
+
+    for v in range(h):
+        for u in range(w):
+            xt = u - Cx
+            yt = v - Cy
+            r2 = xt**2 + yt**2
+            if r2 == 0:
+                map_x[v, u] = u
+                map_y[v, u] = v
+                continue
+
+            AO1 = (xt**2 + R**2) / (2.0 * xt) if xt != 0 else 1e-6
+            AB = np.sqrt(xt**2 + R**2)
+            PE = R - yt if (R - yt) != 0 else 1e-6
+            a = yt / PE
+            b = 2.0 * np.arcsin(np.clip(AB / (2.0 * AO1), -1.0, 1.0))
+
+            alpha = (a * b) / (a + 1.0) if (a + 1.0) != 0 else 0
+            x1 = xt - AO1 + AO1 * np.cos(alpha)
+            y1 = AO1 * np.sin(alpha)
+
+            map_x[v, u] = x1 + Cx
+            map_y[v, u] = y1 + Cy
+
+    # Remap Y-axis for uniformity
+    for u in range(w):
+        y_col = map_y[:, u]
+        min_y, max_y = np.min(y_col), np.max(y_col)
+        range_y = max_y - min_y
+        scale = h / range_y if range_y > 0 else 1
+        map_y[:, u] = (map_y[:, u] - Cy) * scale + Cy
+
+    return map_x, map_y
+
+
+
+
+
+
+#####*
 import cv2
 import numpy as np
 import sys
