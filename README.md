@@ -1,3 +1,58 @@
+import cv2
+import numpy as np
+
+# Load input image
+image_path = "input.jpg"  # Replace with your image path
+input_img = cv2.imread(image_path)
+gray = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
+gray = cv2.equalizeHist(gray)
+blurred = cv2.GaussianBlur(gray, (9, 9), 2)
+
+# Detect outer circle using Hough Circle Transform
+circles = cv2.HoughCircles(
+    blurred,
+    cv2.HOUGH_GRADIENT,
+    dp=1.2,
+    minDist=gray.shape[0] // 4,
+    param1=100,
+    param2=40,
+    minRadius=gray.shape[0] // 4,
+    maxRadius=gray.shape[0] // 2
+)
+
+if circles is not None:
+    # Find circle closest to center
+    circles = np.uint16(np.around(circles[0]))
+    h, w = gray.shape[:2]
+    center_img = np.array([w // 2, h // 2])
+    best_circle = min(circles, key=lambda c: np.linalg.norm(center_img - c[:2]))
+
+    Cx, Cy, R = best_circle
+    detected_points = []
+
+    # Mark 12 points evenly spaced around the circle
+    for i in range(12):
+        theta = 2 * np.pi * i / 12
+        x = int(Cx + R * np.cos(theta))
+        y = int(Cy + R * np.sin(theta))
+        detected_points.append((x, y))
+        cv2.circle(input_img, (x, y), 8, (0, 0, 255), -1)  # Red points
+
+    # Draw detected circle and center
+    cv2.circle(input_img, (Cx, Cy), R, (0, 255, 0), 2)     # Green circle
+    cv2.circle(input_img, (Cx, Cy), 5, (255, 0, 0), -1)    # Blue center
+
+    # Save the result
+    cv2.imwrite("annotated_fisheye_12points.jpg", input_img)
+    print("Saved: annotated_fisheye_12points.jpg")
+    print("12 detected points:", detected_points)
+
+else:
+    print("No circular boundary detected.")
+
+
+
+#№#######
 def auto_detect_12_points(input_img):
     gray = cv2.cvtColor(input_img, cv2.COLOR_BGR2GRAY)
     blurred = cv2.medianBlur(gray, 5)
