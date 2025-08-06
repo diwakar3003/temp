@@ -1,5 +1,47 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+
+# Load binary mask image
+mask = cv2.imread('mask.png', cv2.IMREAD_GRAYSCALE)
+
+# Threshold (if needed)
+_, thresh = cv2.threshold(mask, 127, 255, cv2.THRESH_BINARY)
+
+# Find contours
+contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+# Get the largest contour (assuming object is largest)
+contour = max(contours, key=cv2.contourArea)
+
+# Approximate contour to reduce points (~12 points)
+epsilon = 0.01 * cv2.arcLength(contour, True)  # Start with 1% of arc length
+approx = cv2.approxPolyDP(contour, epsilon, True)
+
+# Adjust epsilon iteratively to get exactly 12 points
+while len(approx) > 12:
+    epsilon += 0.001 * cv2.arcLength(contour, True)
+    approx = cv2.approxPolyDP(contour, epsilon, True)
+
+# Draw approximated polygon
+output = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+cv2.polylines(output, [approx], isClosed=True, color=(0, 0, 255), thickness=2)
+
+# Show result
+plt.imshow(output)
+plt.axis('off')
+plt.title("Polygon with 12 Points")
+plt.show()
+
+# Extract boundary points
+polygon_points = approx.reshape(-1, 2)
+print("Polygon Points (12):\n", polygon_points)
+
+
+
+#####№###
+import cv2
+import numpy as np
 
 # Load image
 img = cv2.imread("1000223936.jpg")
