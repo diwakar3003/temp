@@ -1,6 +1,40 @@
 import cv2
 import numpy as np
 
+# Load the image
+img = cv2.imread("1000223724.jpg")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+blur = cv2.GaussianBlur(gray, (5, 5), 0)
+
+# Use Hough Circle Transform to find outer ring
+circles = cv2.HoughCircles(blur, cv2.HOUGH_GRADIENT, dp=1.2, minDist=300,
+                           param1=100, param2=30, minRadius=280, maxRadius=340)
+
+# Draw and extract circle
+output = img.copy()
+if circles is not None:
+    circles = np.uint16(np.around(circles))
+    for (x, y, r) in circles[0, :]:
+        cv2.circle(output, (x, y), r, (0, 255, 0), 2)
+        print(f"Center: ({x},{y}), Radius: {r}")
+
+        # Get 360 boundary points
+        angles = np.linspace(0, 2*np.pi, 360)
+        boundary_pts = [(int(x + r*np.cos(a)), int(y + r*np.sin(a))) for a in angles]
+
+        # Save points
+        np.savetxt("fisheye_circle_boundary.csv", boundary_pts, delimiter=",", header="x,y", comments='')
+
+cv2.imwrite("fisheye_circle_detected.jpg", output)
+
+
+
+
+
+#######
+import cv2
+import numpy as np
+
 # Load image
 img = cv2.imread("input.jpg")
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
