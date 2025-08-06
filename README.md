@@ -1,6 +1,48 @@
 import cv2
 import numpy as np
 
+# Load image
+img = cv2.imread("input.jpg")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+gray = cv2.GaussianBlur(gray, (5, 5), 0)
+
+# Detect circle (assumes single large central circle)
+circles = cv2.HoughCircles(
+    gray, cv2.HOUGH_GRADIENT, dp=1.2, minDist=100,
+    param1=100, param2=40, minRadius=200, maxRadius=320
+)
+
+if circles is not None:
+    x, y, r = np.uint16(np.around(circles[0][0]))
+    print(f"Center: ({x}, {y}), Radius: {r}")
+
+    # Create circular mask
+    mask = np.zeros_like(gray)
+    cv2.circle(mask, (x, y), r, 255, 1)  # thickness=1 => boundary only
+
+    # Extract only boundary pixels
+    boundary = cv2.bitwise_and(img, img, mask=mask)
+
+    # Save output
+    cv2.imwrite("fisheye_outer_ring.jpg", boundary)
+    print("Saved: fisheye_outer_ring.jpg")
+else:
+    print("Fisheye boundary not detected.")
+
+
+
+
+
+
+
+
+
+
+
+##₹₹₹#₹₹#####
+import cv2
+import numpy as np
+
 # Load input image
 image_path = "input.jpg"  # Replace with your image path
 input_img = cv2.imread(image_path)
