@@ -1,6 +1,54 @@
 import cv2
 import numpy as np
 
+# Load image
+img = cv2.imread("1000223936.jpg")
+hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+# Define red color range in HSV
+lower_red1 = np.array([0, 70, 50])
+upper_red1 = np.array([10, 255, 255])
+lower_red2 = np.array([170, 70, 50])
+upper_red2 = np.array([180, 255, 255])
+
+# Create masks for red (2 ranges due to HSV wrap-around)
+mask1 = cv2.inRange(hsv, lower_red1, upper_red1)
+mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
+mask = cv2.bitwise_or(mask1, mask2)
+
+# Optional: clean up noise
+mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+
+# Find contours
+contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+# Draw and save red contour
+output = img.copy()
+for cnt in contours:
+    if cv2.arcLength(cnt, closed=False) > 100:  # filter short curves
+        cv2.drawContours(output, [cnt], -1, (0, 255, 0), 2)
+        coords = cnt.reshape(-1, 2)  # get x,y points
+        print(f"Total red curve points: {len(coords)}")
+
+        # Save points to file
+        np.savetxt("red_boundary_points.csv", coords, delimiter=",", header="x,y", comments='')
+
+cv2.imwrite("red_boundary_detected.jpg", output)
+
+
+
+
+get boundary points of fishe eye and remove background Black colour 
+
+
+
+
+
+
+##########
+import cv2
+import numpy as np
+
 # Load the image
 img = cv2.imread("1000223724.jpg")
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
