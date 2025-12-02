@@ -14,7 +14,7 @@ import time
 from uwb_ukf_2d_streaming import StreamingUWBUKF2D
 from trajectory_matching_2d_streaming import RealTimeTrajectoryMatcher
 from vehicle_data_streamer import create_streamer
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 
 class RealTimeInferencePipeline:
@@ -74,26 +74,26 @@ class RealTimeInferencePipeline:
             # --- 1. UKF Prediction ---
             self.ukf.predict(frame, timestamp)
             
-            # --- 2. UKF Update (Asynchronous UWB) ---
+            # --- 2. UKF Update (UWB-Driven) ---
+            
+            # The UKF update is driven by the UWB measurement (3 FPS)
             if uwb_measurement is not None:
-                # In a real system, UWB measurement would be used to update the UKF
-                # Here, we use the camera tracklet position for the update for simplicity
-                # and focus on the streaming architecture.
-                # The uwb_ukf_2d_streaming.py is designed to handle this.
-                # We use the camera tracklet position for the update for simplicity
-                # and focus on the streaming architecture.
-                
-                # For this simulation, we will update the UKF with the camera tracklet
-                # position only if a UWB measurement is available, simulating the
-                # data fusion point.
-                
-                # Find the tracklet position for the update
-                tracklet_pos = camera_tracklets[0]['position']
-                self.ukf.update_camera(tracklet_pos, frame, timestamp)
+                uwb_pos = uwb_measurement['position']
+                self.ukf.update_camera(uwb_pos, frame, timestamp)
+            
+            # Log occlusion events for clarity in the output
+            is_visible = len(camera_tracklets) > 0
+            if not is_visible:
+                if frame == 151: # Log start of occlusion
+                    print(f"--- Occlusion Start at Frame {frame} ---")
+                if frame == 250: # Log end of occlusion
+                    print(f"--- Occlusion End at Frame {frame} ---")
             
             # --- 3. Trajectory Matching Update ---
             
-            # Update UKF state buffer for matching
+            # --- 3. Trajectory Matching Update ---
+            
+            # Update UKF state buffer for matching (always update with predicted/updated state)
             self.matcher.update_ukf_state(
                 frame=frame,
                 position=self.ukf.get_position(),
@@ -117,11 +117,11 @@ class RealTimeInferencePipeline:
             
             # Log every 30 frames (1 second)
             if frame % 30 == 0:
-                self._log_status(frame, frame_processing_time, assignments)
+                self._log_status(frame, frame_processing_time, assignments, camera_tracklets)
         
         self._print_summary()
     
-    def _log_status(self, frame: int, processing_time_ms: float, assignments: Dict[int, int]):
+    def _log_status(self, frame: int, processing_time_ms: float, assignments: Dict[int, int], camera_tracklets: List[Dict]):
         """Logs the current status of the pipeline."""
         
         ukf_metrics = self.ukf.get_latest_metrics()
@@ -131,8 +131,11 @@ class RealTimeInferencePipeline:
         if assignments:
             assignment_str = f"UWB {list(assignments.keys())[0]} -> Cam {list(assignments.values())[0]}"
         
+        # Log status, including a marker for occlusion
+        occlusion_marker = " (OCCLUDED)" if len(camera_tracklets) == 0 else ""
+        
         print(f"Frame {frame:04d} | Time: {ukf_metrics.timestamp:.2f}s | Proc Time: {processing_time_ms:.2f}ms | "
-              f"UKF Uncert: {self.ukf.get_uncertainty():.2f} | Assignment: {assignment_str}")
+              f"UKF Uncert: {self.ukf.get_uncertainty():.2f} | Assignment: {assignment_str}{occlusion_marker}")
         
         # Check for real-time constraint violation (e.g., processing time > 1/30 sec = 33.33ms)
         if processing_time_ms > 1000 / self.fps:
