@@ -47,23 +47,27 @@ class RealTimeTrajectoryMatcher:
         self.last_lap_frame = -self.matching_rate_frames
         
         # Buffer to store recent UKF states and camera tracklet data
-        self.ukf_state_buffer = deque(maxlen=similarity_window_frames)
+        self.ukf_state_buffer: Dict[int, deque] = {} # uwb_id -> deque of (frame, position, covariance)
         self.camera_tracklet_buffer = {}  # tracklet_id -> deque of (frame, position, covariance)
         
         # Current assignments
         self.current_assignments = {}  # UWB_ID -> Tracklet_ID
         self.assignment_history = deque(maxlen=100)
     
-    def update_ukf_state(self, frame: int, position: np.ndarray, covariance: np.ndarray):
+    def update_ukf_state(self, frame: int, uwb_id: int, position: np.ndarray, covariance: np.ndarray):
         """
         Update the buffer with the latest UKF state.
         
         Args:
             frame: Current frame number
+            uwb_id: ID of the UWB tag
             position: UKF position estimate [x, y]
             covariance: UKF position covariance (2x2)
         """
-        self.ukf_state_buffer.append({
+        if uwb_id not in self.ukf_state_buffer:
+            self.ukf_state_buffer[uwb_id] = deque(maxlen=self.similarity_window_frames)
+            
+        self.ukf_state_buffer[uwb_id].append({
             'frame': frame,
             'position': position.copy(),
             'covariance': covariance.copy()
@@ -138,7 +142,7 @@ class RealTimeTrajectoryMatcher:
         except np.linalg.LinAlgError:
             return np.inf
     
-    def _calculate_time_averaged_similarity(self, ukf_id: int, tracklet_id: int) -> float:
+    def _calculate_time_averaged_similarity(self, uwb_id: int, tracklet_id: int) -> float:
         """
         Calculate the time-averaged similarity (inverse of cost) over the sliding window.
         
@@ -149,20 +153,24 @@ class RealTimeTrajectoryMatcher:
         Returns:
             Time-averaged similarity score (higher is better)
         """
-        if tracklet_id not in self.camera_tracklet_buffer:
+        if uwb_id not in self.ukf_state_buffer or tracklet_id not in self.camera_tracklet_buffer:
             return -np.inf
         
+        ukf_buffer = self.ukf_state_buffer[uwb_id]
         tracklet_buffer = self.camera_tracklet_buffer[tracklet_id]
         
         total_cost = 0.0
         count = 0
         
+        # Create a set of frames present in the tracklet buffer for quick lookup
+        tracklet_frames = {item['frame']: item for item in tracklet_buffer}
+        
         # Iterate over the UKF state buffer (which represents the UWB trajectory)
-        for ukf_data in self.ukf_state_buffer:
+        for ukf_data in ukf_buffer:
             ukf_frame = ukf_data['frame']
             
             # Find the corresponding camera tracklet data for this frame
-            cam_data = next((item for item in tracklet_buffer if item['frame'] == ukf_frame), None)
+            cam_data = tracklet_frames.get(ukf_frame)
             
             if cam_data is not None:
                 cost = self._calculate_mahalanobis_cost(ukf_data, cam_data)
@@ -199,8 +207,8 @@ class RealTimeTrajectoryMatcher:
         
         start_time = time.time()
         
-        # Assuming a single UWB tag (ID 0) for simplicity in this real-time context
-        uwb_ids = [0]
+        # Get all UWB IDs that have recent UKF state data
+        uwb_ids = list(self.ukf_state_buffer.keys())
         tracklet_ids = list(self.camera_tracklet_buffer.keys())
         
         if not tracklet_ids:
@@ -213,14 +221,18 @@ class RealTimeTrajectoryMatcher:
         n_cam = len(tracklet_ids)
         
         # Initialize cost matrix with a high cost (low similarity)
-        cost_matrix = np.full((n_uwb, n_cam), -np.inf)
+        MAX_COST = 1000.0 # A large finite number to represent infeasible assignments
+        cost_matrix = np.full((n_uwb, n_cam), MAX_COST)
         
         for i, uwb_id in enumerate(uwb_ids):
             for j, tracklet_id in enumerate(tracklet_ids):
                 similarity = self._calculate_time_averaged_similarity(uwb_id, tracklet_id)
                 
                 # Cost is negative similarity (minimize cost = maximize similarity)
-                cost_matrix[i, j] = -similarity
+                if similarity > -np.inf:
+                    cost_matrix[i, j] = -similarity
+                else:
+                    cost_matrix[i, j] = MAX_COST # Replace -inf similarity with MAX_COST
         
         # Solve assignment problem
         row_ind, col_ind = linear_sum_assignment(cost_matrix)
@@ -230,14 +242,17 @@ class RealTimeTrajectoryMatcher:
         for i, j in zip(row_ind, col_ind):
             uwb_id = uwb_ids[i]
             tracklet_id = tracklet_ids[j]
-            similarity = -cost_matrix[i, j]
             
-            # Only assign if similarity is above a threshold (e.g., 1 / (1 + cost_threshold))
-            min_similarity = 1.0 / (1.0 + self.cost_threshold)
-            
-            if similarity >= min_similarity:
-                new_assignments[uwb_id] = tracklet_id
-                self.assignment_history.append({
+            # Check if the assignment is a real match or a padded MAX_COST
+            if cost_matrix[i, j] < MAX_COST:
+                similarity = -cost_matrix[i, j]
+                
+                # Only assign if similarity is above a threshold (e.g., 1 / (1 + cost_threshold))
+                min_similarity = 1.0 / (1.0 + self.cost_threshold)
+                
+                if similarity >= min_similarity:
+                    new_assignments[uwb_id] = tracklet_id
+                    self.assignment_history.append({
                     'frame': frame,
                     'uwb_id': uwb_id,
                     'tracklet_id': tracklet_id,
@@ -262,6 +277,8 @@ class RealTimeTrajectoryMatcher:
     
     def reset(self):
         """Reset all buffers and state."""
+        for buffer in self.ukf_state_buffer.values():
+            buffer.clear()
         self.ukf_state_buffer.clear()
         self.camera_tracklet_buffer.clear()
         self.current_assignments = {}

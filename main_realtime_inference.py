@@ -14,6 +14,7 @@ import time
 from uwb_ukf_2d_streaming import StreamingUWBUKF2D
 from trajectory_matching_2d_streaming import RealTimeTrajectoryMatcher
 from vehicle_data_streamer import create_streamer
+from multi_person_tracker import MultiPersonTracker
 from typing import Dict, Any, List
 
 
@@ -33,20 +34,23 @@ class RealTimeInferencePipeline:
         self.dt = self.streamer.get_dt()
         self.fps = self.streamer.get_fps()
         
-        # Initialize UKF
-        self.ukf = StreamingUWBUKF2D(dt=self.dt, buffer_size=self.fps * 5) # 5 seconds buffer
+        # Initialize Multi-Person Tracker
+        self.tracker = MultiPersonTracker(dt=self.dt, buffer_size=self.fps * 5) # 5 seconds buffer
         
         # Initialize Matcher (runs LAP every 3 frames for 10 FPS matching rate)
         self.matcher = RealTimeTrajectoryMatcher(
             dt=self.dt,
             matching_rate_fps=10,
             similarity_window_frames=self.fps * 1, # 1 second window
-            cost_threshold=1.5 # Adjusted for real-time noise
+            cost_threshold=5.0 # Increased to resolve "infeasible cost matrix" error and ensure feasibility for multi-person noise
         )
         
-        # Initialize UKF state
-        initial_pos, initial_vel = self.streamer.get_initial_state()
-        self.ukf.initialize_state(initial_pos, initial_vel)
+        # Initialize Tracker states
+        initial_states = self.streamer.get_initial_states()
+        self.tracker.initialize_trackers(initial_states)
+        
+        # Get UWB IDs for reference
+        self.uwb_ids = self.streamer.get_uwb_ids()
         
         # Performance tracking
         self.total_processing_time = 0.0
@@ -67,38 +71,49 @@ class RealTimeInferencePipeline:
             frame = data['frame']
             timestamp = data['timestamp']
             camera_tracklets = data['camera_tracklets']
-            uwb_measurement = data['uwb_measurement']
+            uwb_measurements = data['uwb_measurements'] # Changed to plural
             
             frame_start_time = time.time()
             
             # --- 1. UKF Prediction ---
-            self.ukf.predict(frame, timestamp)
+            self.tracker.predict_all(frame, timestamp)
             
             # --- 2. UKF Update (UWB-Driven) ---
-            
-            # The UKF update is driven by the UWB measurement (3 FPS)
-            if uwb_measurement is not None:
-                uwb_pos = uwb_measurement['position']
-                self.ukf.update_camera(uwb_pos, frame, timestamp)
+            self.tracker.update_all_uwb(uwb_measurements)
             
             # Log occlusion events for clarity in the output
-            is_visible = len(camera_tracklets) > 0
-            if not is_visible:
-                if frame == 151: # Log start of occlusion
-                    print(f"--- Occlusion Start at Frame {frame} ---")
-                if frame == 250: # Log end of occlusion
-                    print(f"--- Occlusion End at Frame {frame} ---")
+            # We will only log the occlusion of the first person (UWB ID 101) for simplicity
+            is_visible_p1 = any(t['id'] == 1 for t in camera_tracklets) # Tracklet ID 1 corresponds to UWB ID 101
+            if not is_visible_p1:
+                if frame == 151: # Log start of occlusion for P1
+                    print(f"--- Occlusion Start (P1) at Frame {frame} ---")
+                if frame == 250: # Log end of occlusion for P1
+                    print(f"--- Occlusion End (P1) at Frame {frame} ---")
             
             # --- 3. Trajectory Matching Update ---
             
             # --- 3. Trajectory Matching Update ---
             
-            # Update UKF state buffer for matching (always update with predicted/updated state)
-            self.matcher.update_ukf_state(
-                frame=frame,
-                position=self.ukf.get_position(),
-                covariance=self.ukf.get_position_covariance()
-            )
+            # --- 3. Trajectory Matching Update ---
+            
+            # Update UKF state buffer for matching (for all UWB tags)
+            ukf_states = self.tracker.get_ukf_states_for_matching()
+            ukf_metrics = self.tracker.get_ukf_metrics()
+            
+            # Filter out UKF states with very high uncertainty (e.g., before first UWB update)
+            # We use a threshold of 100.0 for the trace of the covariance matrix.
+            UNCERTAINTY_THRESHOLD = 100.0
+            
+            for uwb_id, state in ukf_states.items():
+                uncertainty = ukf_metrics.get(uwb_id, {}).get('uncertainty', UNCERTAINTY_THRESHOLD + 1)
+                
+                if uncertainty < UNCERTAINTY_THRESHOLD:
+                    self.matcher.update_ukf_state(
+                        frame=frame,
+                        uwb_id=uwb_id,
+                        position=state['position'],
+                        covariance=state['covariance']
+                    )
             
             # Update camera tracklet buffer for matching
             cam_data_for_matcher = [
@@ -124,18 +139,22 @@ class RealTimeInferencePipeline:
     def _log_status(self, frame: int, processing_time_ms: float, assignments: Dict[int, int], camera_tracklets: List[Dict]):
         """Logs the current status of the pipeline."""
         
-        ukf_metrics = self.ukf.get_latest_metrics()
+        ukf_metrics = self.tracker.get_ukf_metrics()
         
         # Check for assignment
         assignment_str = "None"
         if assignments:
-            assignment_str = f"UWB {list(assignments.keys())[0]} -> Cam {list(assignments.values())[0]}"
+            assignment_str = ", ".join([f"UWB {u} -> Cam {c}" for u, c in assignments.items()])
         
         # Log status, including a marker for occlusion
         occlusion_marker = " (OCCLUDED)" if len(camera_tracklets) == 0 else ""
         
-        print(f"Frame {frame:04d} | Time: {ukf_metrics.timestamp:.2f}s | Proc Time: {processing_time_ms:.2f}ms | "
-              f"UKF Uncert: {self.ukf.get_uncertainty():.2f} | Assignment: {assignment_str}{occlusion_marker}")
+        # Log uncertainty for UWB ID 101 and 102
+        uncert_101 = ukf_metrics.get(101, {}).get('uncertainty', 0.0)
+        uncert_102 = ukf_metrics.get(102, {}).get('uncertainty', 0.0)
+        
+        print(f"Frame {frame:04d} | Time: {ukf_metrics.get(101, {}).get('timestamp', 0.0):.2f}s | Proc Time: {processing_time_ms:.2f}ms | "
+              f"Uncert(101/102): {uncert_101:.2f}/{uncert_102:.2f} | Assignment: {assignment_str}{occlusion_marker}")
         
         # Check for real-time constraint violation (e.g., processing time > 1/30 sec = 33.33ms)
         if processing_time_ms > 1000 / self.fps:
@@ -145,7 +164,7 @@ class RealTimeInferencePipeline:
         """Prints the final summary of the simulation."""
         
         avg_proc_time = self.total_processing_time / self.total_frames
-        max_proc_time = self.ukf.get_max_processing_time()
+        max_proc_time = self.tracker.get_max_processing_time()
         
         print("="*80)
         print("Simulation Summary")
@@ -171,7 +190,7 @@ class RealTimeInferencePipeline:
 
 def main():
     """Entry point for the real-time inference simulation."""
-    pipeline = RealTimeInferencePipeline(duration_sec=10.0) # Run for 10 seconds
+    pipeline = RealTimeInferencePipeline(duration_sec=20.0) # Run for 20 seconds to allow for multi-person scenarios to play out
     pipeline.run_inference()
 
 
