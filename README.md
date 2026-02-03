@@ -1,4 +1,7 @@
 
+https://mathworks.bigmarker.com/mathworks-webinars/embedded-ai-compression-techniques-and-performance-optimization-using-automated-c-c-code-generation?bmid=64b841580c25
+
+
 https://jaguar.bodhi-tree.in/courseware/course/34/content/multimedia/coursecontent
 
 import cv2
